@@ -1,0 +1,162 @@
+[
+  {
+    "root_text": "aqua",
+    "origin_lang": "Latin",
+    "meaning": "water",
+    "examples": ["aquarium", "aquatic"],
+    "source_title": "Oxford Etymology Dictionary",
+    "source_url": "https://www.oxfordreference.com/view/10.1093/acref/9780199547937.001.0001/acref-9780199547937"
+  },
+  {
+    "root_text": "terra",
+    "origin_lang": "Latin", 
+    "meaning": "earth, land",
+    "examples": ["territory", "terrestrial"],
+    "source_title": "Etymonline",
+    "source_url": "https://www.etymonline.com/word/territory"
+  },
+  {
+    "root_text": "ignis",
+    "origin_lang": "Latin",
+    "meaning": "fire",
+    "examples": ["ignite", "ignition"],
+    "source_title": "Oxford Etymology Dictionary",
+    "source_url": "https://www.oxfordreference.com/view/10.1093/acref/9780199547937.001.0001/acref-9780199547937"
+  },
+  {
+    "root_text": "aer",
+    "origin_lang": "Greek",
+    "meaning": "air",
+    "examples": ["aerial", "aerodynamics"],
+    "source_title": "Etymonline",
+    "source_url": "https://www.etymonline.com/word/aerial"
+  },
+  {
+    "root_text": "phobos",
+    "origin_lang": "Greek",
+    "meaning": "fear",
+    "examples": ["phobia", "phobic"],
+    "source_title": "Oxford Etymology Dictionary",
+    "source_url": "https://www.oxfordreference.com/view/10.1093/acref/9780199547937.001.0001/acref-9780199547937"
+  },
+  {
+    "root_text": "logos",
+    "origin_lang": "Greek",
+    "meaning": "word, study",
+    "examples": ["biology", "psychology"],
+    "source_title": "Etymonline",
+    "source_url": "https://www.etymonline.com/word/biology"
+  },
+  {
+    "root_text": "pathos",
+    "origin_lang": "Greek",
+    "meaning": "feeling, suffering",
+    "examples": ["empathy", "sympathy"],
+    "source_title": "Oxford Etymology Dictionary",
+    "source_url": "https://www.oxfordreference.com/view/10.1093/acref/9780199547937.001.0001/acref-9780199547937"
+  },
+  {
+    "root_text": "chronos",
+    "origin_lang": "Greek",
+    "meaning": "time",
+    "examples": ["chronology", "synchronize"],
+    "source_title": "Etymonline",
+    "source_url": "https://www.etymonline.com/word/chronology"
+  },
+  {
+    "root_text": "geo",
+    "origin_lang": "Greek",
+    "meaning": "earth",
+    "examples": ["geography", "geology"],
+    "source_title": "Oxford Etymology Dictionary",
+    "source_url": "https://www.oxfordreference.com/view/10.1093/acref/9780199547937.001.0001/acref-9780199547937"
+  },
+  {
+    "root_text": "bios",
+    "origin_lang": "Greek",
+    "meaning": "life",
+    "examples": ["biology", "biography"],
+    "source_title": "Etymonline",
+    "source_url": "https://www.etymonline.com/word/biology"
+  },
+  {
+    "root_text": "philos",
+    "origin_lang": "Greek",
+    "meaning": "love",
+    "examples": ["philosophy", "philanthropy"],
+    "source_title": "Oxford Etymology Dictionary",
+    "source_url": "https://www.oxfordreference.com/view/10.1093/acref/9780199547937.001.0001/acref-9780199547937"
+  },
+  {
+    "root_text": "sophos",
+    "origin_lang": "Greek",
+    "meaning": "wise",
+    "examples": ["philosophy", "sophisticated"],
+    "source_title": "Etymonline",
+    "source_url": "https://www.etymonline.com/word/philosophy"
+  },
+  {
+    "root_text": "demos",
+    "origin_lang": "Greek",
+    "meaning": "people",
+    "examples": ["democracy", "demographics"],
+    "source_title": "Oxford Etymology Dictionary",
+    "source_url": "https://www.oxfordreference.com/view/10.1093/acref/9780199547937.001.0001/acref-9780199547937"
+  },
+  {
+    "root_text": "polis",
+    "origin_lang": "Greek",
+    "meaning": "city",
+    "examples": ["metropolis", "police"],
+    "source_title": "Etymonline",
+    "source_url": "https://www.etymonline.com/word/metropolis"
+  },
+  {
+    "root_text": "tele",
+    "origin_lang": "Greek",
+    "meaning": "far, distant",
+    "examples": ["telephone", "television"],
+    "source_title": "Oxford Etymology Dictionary",
+    "source_url": "https://www.oxfordreference.com/view/10.1093/acref/9780199547937.001.0001/acref-9780199547937"
+  },
+  {
+    "root_text": "graph",
+    "origin_lang": "Greek",
+    "meaning": "write",
+    "examples": ["graphite", "photograph"],
+    "source_title": "Etymonline",
+    "source_url": "https://www.etymonline.com/word/graphite"
+  },
+  {
+    "root_text": "phon",
+    "origin_lang": "Greek",
+    "meaning": "sound",
+    "examples": ["telephone", "symphony"],
+    "source_title": "Oxford Etymology Dictionary",
+    "source_url": "https://www.oxfordreference.com/view/10.1093/acref/9780199547937.001.0001/acref-9780199547937"
+  },
+  {
+    "root_text": "scope",
+    "origin_lang": "Greek",
+    "meaning": "look, see",
+    "examples": ["microscope", "telescope"],
+    "source_title": "Etymonline",
+    "source_url": "https://www.etymonline.com/word/microscope"
+  },
+  {
+    "root_text": "micro",
+    "origin_lang": "Greek",
+    "meaning": "small",
+    "examples": ["microscope", "microbiology"],
+    "source_title": "Oxford Etymology Dictionary",
+    "source_url": "https://www.oxfordreference.com/view/10.1093/acref/9780199547937.001.0001/acref-9780199547937"
+  },
+  {
+    "root_text": "macro",
+    "origin_lang": "Greek",
+    "meaning": "large",
+    "examples": ["macroeconomics", "macroscopic"],
+    "source_title": "Etymonline",
+    "source_url": "https://www.etymonline.com/word/macro"
+  }
+]
