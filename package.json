@@ -10,6 +10,8 @@
     "db:seed": "node scripts/seed.mjs"
   },
   "devDependencies": {
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
     "@types/react-router-dom": "^5.3.3",
     "supabase": "^2.54.11",
     "typescript": "~5.9.3",
@@ -17,6 +19,8 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.76.1",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
     "react-router-dom": "^7.9.4"
   }
 }
