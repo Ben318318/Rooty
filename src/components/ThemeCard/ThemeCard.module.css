@@ -1,0 +1,64 @@
+.themeCard {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    color: white;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    box-shadow: var(--shadow-md);
+}
+
+.themeCard:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-xl);
+}
+
+.themeCard:active {
+    transform: translateY(-2px);
+}
+
+.header {
+    margin-bottom: 1rem;
+}
+
+.week {
+    font-size: var(--font-size-sm);
+    opacity: 0.9;
+    margin-bottom: 0.5rem;
+}
+
+.title {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
+    margin: 0;
+}
+
+.description {
+    font-size: var(--font-size-sm);
+    opacity: 0.9;
+    line-height: var(--line-height-relaxed);
+    margin-bottom: 1rem;
+}
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.rootsCount {
+    font-size: var(--font-size-sm);
+    opacity: 0.9;
+}
+
+.arrow {
+    font-size: 1.5rem;
+    transition: transform var(--transition-base);
+}
+
+.themeCard:hover .arrow {
+    transform: translateX(4px);
+}
+

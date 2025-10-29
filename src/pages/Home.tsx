@@ -1,15 +1,19 @@
 /**
  * Home Page
  * Created by Gabriel
+ * Enhanced by Nick with navigation
  * 
  * Landing page for the Rooty application.
  */
 
 import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import Button from '../components/Button';
 import Card, { CardHeader, CardContent } from '../components/Card';
 
 export default function Home() {
+    const { user } = useAuth();
+
     return (
         <div className="container" style={{ marginTop: '4rem' }}>
             <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
@@ -38,11 +42,19 @@ export default function Home() {
                         Start Learning
                     </Button>
                 </Link>
-                <Link to="/learn" style={{ textDecoration: 'none' }}>
-                    <Button fullWidth variant="ghost" size="large">
-                        View Themes
-                    </Button>
-                </Link>
+                {user ? (
+                    <Link to="/profile" style={{ textDecoration: 'none' }}>
+                        <Button fullWidth variant="ghost" size="large">
+                            View Profile
+                        </Button>
+                    </Link>
+                ) : (
+                    <Link to="/auth" style={{ textDecoration: 'none' }}>
+                        <Button fullWidth variant="ghost" size="large">
+                            Sign In
+                        </Button>
+                    </Link>
+                )}
             </div>
 
             <div style={{ 

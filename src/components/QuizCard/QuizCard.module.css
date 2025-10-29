@@ -1,0 +1,112 @@
+.quizCard {
+    background-color: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: 2rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--color-bg-tertiary);
+}
+
+.progress {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.rootText {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary);
+    margin: 0.5rem 0;
+}
+
+.origin {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    font-style: italic;
+}
+
+.meaning {
+    font-size: var(--font-size-lg);
+    color: var(--color-text);
+    margin: 1.5rem 0;
+    text-align: center;
+}
+
+.examples {
+    margin: 1.5rem 0;
+}
+
+.examplesTitle {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.examplesList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.exampleTag {
+    background-color: var(--color-bg-tertiary);
+    color: var(--color-text);
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-sm);
+}
+
+.answerSection {
+    margin-top: 2rem;
+}
+
+.answerInput {
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.feedback {
+    padding: 1rem;
+    border-radius: var(--radius-md);
+    margin-top: 1rem;
+    font-weight: var(--font-weight-medium);
+}
+
+.feedback.correct {
+    background-color: var(--color-success-light);
+    color: var(--color-success);
+    border: 1px solid var(--color-success);
+}
+
+.feedback.incorrect {
+    background-color: var(--color-danger-light);
+    color: var(--color-danger);
+    border: 1px solid var(--color-danger);
+}
+
+.source {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+}
+
+.sourceLink {
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
+.sourceLink:hover {
+    text-decoration: underline;
+}
+

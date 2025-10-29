@@ -1,17 +1,22 @@
 /**
  * Learn Page
  * Created by Gabriel (frontend-backend connection demo)
+ * Enhanced by Nick with improved UI
  * 
  * Displays weekly themes from the database using Nelson's rpc_get_themes() function.
  * This page demonstrates the working frontend-backend connection.
  */
 
 import { useEffect, useState } from 'react';
-import { supabase, Theme } from '../lib/supabase';
-import Card, { CardHeader, CardContent, CardFooter } from '../components/Card';
+import { useNavigate } from 'react-router-dom';
+import { getThemes } from '../lib/api';
+import { Theme } from '../lib/supabase';
+import ThemeCard from '../components/ThemeCard';
+import Card, { CardContent } from '../components/Card';
 import Button from '../components/Button';
 
 export default function Learn() {
+    const navigate = useNavigate();
     const [themes, setThemes] = useState<Theme[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -25,8 +30,8 @@ export default function Learn() {
             setLoading(true);
             setError(null);
 
-            // Call Nelson's RPC function
-            const { data, error: rpcError } = await supabase.rpc('rpc_get_themes');
+            // Call Nelson's RPC function via Nick's API layer
+            const { data, error: rpcError } = await getThemes();
 
             if (rpcError) {
                 throw rpcError;
@@ -39,6 +44,10 @@ export default function Learn() {
         } finally {
             setLoading(false);
         }
+    };
+
+    const handleThemeClick = (themeId: number) => {
+        navigate(`/session?theme=${themeId}`);
     };
 
     if (loading) {
@@ -101,24 +110,18 @@ export default function Learn() {
                 Choose a weekly theme to start learning Latin and Greek roots
             </p>
 
-            <div className="grid grid-cols-1" style={{ gap: '1.5rem', maxWidth: '800px' }}>
+            <div style={{ 
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+                gap: '1.5rem',
+                marginBottom: '3rem'
+            }}>
                 {themes.map((theme) => (
-                    <Card key={theme.id} clickable>
-                        <CardHeader
-                            title={theme.name}
-                            subtitle={`Week starting ${new Date(theme.week_start).toLocaleDateString()}`}
-                        />
-                        <CardContent>
-                            <p style={{ fontSize: '0.875rem' }}>
-                                {theme.description || 'No description available'}
-                            </p>
-                        </CardContent>
-                        <CardFooter>
-                            <Button variant="primary" size="small">
-                                Start Learning
-                            </Button>
-                        </CardFooter>
-                    </Card>
+                    <ThemeCard 
+                        key={theme.id}
+                        theme={theme}
+                        onClick={() => handleThemeClick(theme.id)}
+                    />
                 ))}
             </div>
 

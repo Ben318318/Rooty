@@ -1,0 +1,45 @@
+.statBadge {
+    background-color: white;
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: var(--shadow-md);
+    transition: transform var(--transition-base);
+}
+
+.statBadge:hover {
+    transform: translateY(-2px);
+}
+
+.icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.value {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary);
+    margin: 0.5rem 0;
+}
+
+.label {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.statBadge.success .value {
+    color: var(--color-success);
+}
+
+.statBadge.info .value {
+    color: var(--color-info);
+}
+
+.statBadge.warning .value {
+    color: var(--color-warning);
+}
+
