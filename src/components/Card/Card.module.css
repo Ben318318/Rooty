@@ -1,0 +1,51 @@
+.card {
+    background-color: white;
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    transition: all 0.2s ease;
+}
+
+.card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.clickable:hover {
+    transform: translateY(-2px);
+}
+
+.clickable:active {
+    transform: translateY(0);
+}
+
+.header {
+    margin-bottom: 1rem;
+}
+
+.title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-text, #1f2937);
+    margin: 0 0 0.5rem 0;
+}
+
+.subtitle {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary, #6b7280);
+    margin: 0;
+}
+
+.content {
+    color: var(--color-text, #1f2937);
+}
+
+.footer {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border, #e5e7eb);
+}
+
