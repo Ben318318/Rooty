@@ -1,6 +1,6 @@
 # Rooty 🌱
 
-A web-based learning platform inspired by Duolingo that helps students learn **Latin and Greek word roots**.
+A web-based learning platform inspired by Duolingo that helps students learn **Latin and Greek word roots** through Christmas-themed daily challenges.
 
 ## Project Overview
 
@@ -14,25 +14,48 @@ Rooty is a lightweight web app built with:
 
 - **Two user roles:** admin and learner
 - **Authentication** using Supabase
-- **100 preloaded root entries** in the database
+- **50 Christmas-themed root entries** in the database
+- **Daily Challenges** - 5 challenges per day with Christmas theme
 - **Weekly themed quizzes** for learning
 - **Review system** for mistakes
 - **Progress tracking** with stats and streaks
 
 ## Team
 
-- **Gabriel** — Project scaffold, CI, routing, Supabase client, AuthContext
-- **Nick** — Frontend UX: Learn, Review, Profile pages, API calls, user flow
-- **Nelson** — Database schema, RLS, RPC, and seeding the 100 roots
+- **Gabriel** — Project scaffold, CI, routing, Supabase client, AuthContext, Sprint 4 integration & deployment
+- **Nick** — Frontend UX: Learn, Review, Profile pages, API calls, user flow, Daily Challenges
+- **Nelson** — Database schema, RLS, RPC, and seeding the 50 Christmas roots
 - **Benjamin** — Admin console, CRUD validation, docs, and tests
 
 ## Quick Start
 
 ```bash
-pnpm install
-pnpm db:seed        # loads fixed 100-root dataset
-pnpm dev            # start local server
+npm install
+npm run db:seed        # loads Christmas theme with 50 roots
+npm run dev           # start local server
 ```
+
+### Production Seeding
+
+To seed the production database:
+
+1. Set up environment variables in `.env.local`:
+   ```bash
+   VITE_SUPABASE_URL=https://your-project.supabase.co
+   SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+   ```
+
+2. Run the seed script:
+   ```bash
+   npm run db:seed
+   ```
+
+3. Verify in Supabase dashboard:
+   - Christmas theme exists
+   - 50 roots are created
+   - theme_roots relationships are established
+
+**Note:** The service role key bypasses RLS and should be kept secret. Never commit it to version control.
 
 ## Architecture
 
