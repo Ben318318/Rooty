@@ -46,12 +46,26 @@ export async function getThemes(): Promise<{
     const { data, error } = await supabase.rpc("rpc_get_themes");
 
     if (error) {
-      return { data: null, error };
+      console.error("Error fetching themes:", error);
+      const friendlyError = new Error(
+        error.message || "Failed to load themes. Please try again later."
+      );
+      return { data: null, error: friendlyError };
+    }
+
+    if (!data) {
+      return { data: [], error: null };
     }
 
     return { data: data as Theme[], error: null };
   } catch (err) {
-    return { data: null, error: err as Error };
+    console.error("Unexpected error fetching themes:", err);
+    const friendlyError = new Error(
+      err instanceof Error
+        ? err.message
+        : "Network error. Please check your connection and try again."
+    );
+    return { data: null, error: friendlyError };
   }
 }
 
@@ -71,12 +85,29 @@ export async function getSession(
     });
 
     if (error) {
-      return { data: null, error };
+      console.error("Error fetching session roots:", error);
+      const friendlyError = new Error(
+        error.message || "Failed to load quiz session. Please try again."
+      );
+      return { data: null, error: friendlyError };
+    }
+
+    if (!data || data.length === 0) {
+      return {
+        data: [],
+        error: new Error("No roots available for this session."),
+      };
     }
 
     return { data: data as SessionRoot[], error: null };
   } catch (err) {
-    return { data: null, error: err as Error };
+    console.error("Unexpected error fetching session:", err);
+    const friendlyError = new Error(
+      err instanceof Error
+        ? err.message
+        : "Network error. Please check your connection and try again."
+    );
+    return { data: null, error: friendlyError };
   }
 }
 
@@ -102,12 +133,29 @@ export async function submitAttempt(
     });
 
     if (error) {
-      return { data: null, error };
+      console.error("Error submitting attempt:", error);
+      const friendlyError = new Error(
+        error.message || "Failed to save your answer. Please try again."
+      );
+      return { data: null, error: friendlyError };
+    }
+
+    if (!data) {
+      return {
+        data: null,
+        error: new Error("No response from server. Please try again."),
+      };
     }
 
     return { data: data as SubmitAttemptResponse, error: null };
   } catch (err) {
-    return { data: null, error: err as Error };
+    console.error("Unexpected error submitting attempt:", err);
+    const friendlyError = new Error(
+      err instanceof Error
+        ? err.message
+        : "Network error. Please check your connection and try again."
+    );
+    return { data: null, error: friendlyError };
   }
 }
 
@@ -124,12 +172,23 @@ export async function getReview(
     });
 
     if (error) {
-      return { data: null, error };
+      console.error("Error fetching review queue:", error);
+      const friendlyError = new Error(
+        error.message || "Failed to load review queue. Please try again."
+      );
+      return { data: null, error: friendlyError };
     }
 
-    return { data: data as ReviewRoot[], error: null };
+    // Empty array is valid - user has no items to review
+    return { data: (data as ReviewRoot[]) || [], error: null };
   } catch (err) {
-    return { data: null, error: err as Error };
+    console.error("Unexpected error fetching review:", err);
+    const friendlyError = new Error(
+      err instanceof Error
+        ? err.message
+        : "Network error. Please check your connection and try again."
+    );
+    return { data: null, error: friendlyError };
   }
 }
 
@@ -144,11 +203,28 @@ export async function getStatsOverview(): Promise<{
     const { data, error } = await supabase.rpc("rpc_stats_overview");
 
     if (error) {
-      return { data: null, error };
+      console.error("Error fetching stats:", error);
+      const friendlyError = new Error(
+        error.message || "Failed to load statistics. Please try again."
+      );
+      return { data: null, error: friendlyError };
+    }
+
+    if (!data) {
+      return {
+        data: null,
+        error: new Error("No statistics data available."),
+      };
     }
 
     return { data: data as StatsResponse, error: null };
   } catch (err) {
-    return { data: null, error: err as Error };
+    console.error("Unexpected error fetching stats:", err);
+    const friendlyError = new Error(
+      err instanceof Error
+        ? err.message
+        : "Network error. Please check your connection and try again."
+    );
+    return { data: null, error: friendlyError };
   }
 }

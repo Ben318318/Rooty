@@ -55,14 +55,20 @@ export default function Session() {
       }
 
       if (!data || data.length === 0) {
-        setError("No roots available for this session.");
+        setError(
+          "No roots available for this session. Please try selecting a different theme or check back later."
+        );
         return;
       }
 
       setRoots(data);
     } catch (err) {
       console.error("Error loading session:", err);
-      setError(err instanceof Error ? err.message : "Failed to load session");
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Failed to load session. Please check your connection and try again."
+      );
     } finally {
       setLoading(false);
     }

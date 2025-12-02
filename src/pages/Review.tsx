@@ -66,7 +66,7 @@ export default function Review() {
 
     // Submit attempt to backend (will remove from queue if correct)
     try {
-      await submitAttempt(currentRoot.root_id, isCorrect, userAnswer);
+      await submitAttempt(currentRoot.id, isCorrect, userAnswer);
 
       if (isCorrect) {
         setCorrectCount(correctCount + 1);
