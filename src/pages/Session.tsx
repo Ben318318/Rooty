@@ -10,6 +10,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { getSession, submitAttempt } from "../lib/api";
 import type { SessionRoot } from "../lib/api";
 import { useAuth } from "../context/AuthContext";
+import { markChallengeComplete } from "../lib/challenges";
 import QuizCard from "../components/QuizCard";
 import Button from "../components/Button";
 
@@ -21,6 +22,9 @@ export default function Session() {
   const themeId = searchParams.get("theme")
     ? Number(searchParams.get("theme"))
     : null;
+
+  const challengeParam = searchParams.get("challenge");
+  const challengeNumber = challengeParam ? Number(challengeParam) : null;
 
   const [roots, setRoots] = useState<SessionRoot[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -121,6 +125,18 @@ export default function Session() {
     );
   }
 
+  // Handle challenge completion when session finishes
+  useEffect(() => {
+    if (sessionComplete && challengeNumber && challengeNumber >= 1 && challengeNumber <= 5) {
+      markChallengeComplete(challengeNumber);
+      // Navigate to home after 2 seconds
+      const timer = setTimeout(() => {
+        navigate("/");
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [sessionComplete, challengeNumber, navigate]);
+
   if (sessionComplete) {
     const percentage = Math.round((score / roots.length) * 100);
 
@@ -130,6 +146,19 @@ export default function Session() {
         style={{ marginTop: "2rem", textAlign: "center" }}
       >
         <h1 style={{ marginBottom: "1rem" }}>Session Complete! 🎉</h1>
+
+        {challengeNumber && challengeNumber >= 1 && challengeNumber <= 5 && (
+          <p
+            style={{
+              fontSize: "1.125rem",
+              color: "var(--color-success)",
+              marginBottom: "1rem",
+              fontWeight: 500,
+            }}
+          >
+            Challenge {challengeNumber} completed! ✅
+          </p>
+        )}
 
         <div
           style={{
@@ -175,14 +204,20 @@ export default function Session() {
           </p>
         </div>
 
-        <div style={{ display: "flex", gap: "1rem", justifyContent: "center" }}>
-          <Button onClick={() => navigate("/review")} variant="primary">
-            Review Mistakes
-          </Button>
-          <Button onClick={() => navigate("/learn")} variant="ghost">
-            Back to Learn
-          </Button>
-        </div>
+        {challengeNumber && challengeNumber >= 1 && challengeNumber <= 5 ? (
+          <p style={{ color: "var(--color-text-secondary)", marginTop: "1rem" }}>
+            Returning to home page...
+          </p>
+        ) : (
+          <div style={{ display: "flex", gap: "1rem", justifyContent: "center" }}>
+            <Button onClick={() => navigate("/review")} variant="primary">
+              Review Mistakes
+            </Button>
+            <Button onClick={() => navigate("/learn")} variant="ghost">
+              Back to Learn
+            </Button>
+          </div>
+        )}
       </div>
     );
   }
@@ -194,6 +229,18 @@ export default function Session() {
     >
       <div style={{ textAlign: "center", marginBottom: "2rem" }}>
         <h1>Quiz Session</h1>
+        {challengeNumber && challengeNumber >= 1 && challengeNumber <= 5 && (
+          <p
+            style={{
+              fontSize: "1.125rem",
+              color: "var(--color-primary)",
+              marginBottom: "0.5rem",
+              fontWeight: 500,
+            }}
+          >
+            Challenge {challengeNumber} of 5
+          </p>
+        )}
         <p style={{ color: "var(--color-text-secondary)" }}>
           Score: {score} / {answeredQuestions}
         </p>
