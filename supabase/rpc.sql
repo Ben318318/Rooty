@@ -12,6 +12,7 @@ RETURNS TABLE (
 ) 
 LANGUAGE plpgsql
 SECURITY DEFINER
+SET search_path = public
 AS $$
 BEGIN
     RETURN QUERY
@@ -42,6 +43,7 @@ RETURNS TABLE (
 )
 LANGUAGE plpgsql
 SECURITY DEFINER
+SET search_path = public
 AS $$
 BEGIN
     IF theme_id_param IS NULL THEN
@@ -88,14 +90,15 @@ CREATE OR REPLACE FUNCTION rpc_submit_attempt(
 RETURNS JSON
 LANGUAGE plpgsql
 SECURITY DEFINER
+SET search_path = public
 AS $$
 DECLARE
     user_id_val UUID;
     attempt_id INTEGER;
     result JSON;
 BEGIN
-    -- Get current user ID
-    user_id_val := auth.uid();
+    -- Get current user ID (wrapped for security)
+    user_id_val := (SELECT auth.uid());
     
     IF user_id_val IS NULL THEN
         RETURN json_build_object('success', false, 'error', 'User not authenticated');
@@ -150,12 +153,15 @@ RETURNS TABLE (
 )
 LANGUAGE plpgsql
 SECURITY DEFINER
+SET search_path = public
 AS $$
 DECLARE
     user_id_val UUID;
 BEGIN
-    user_id_val := auth.uid();
+    -- Get current user ID (wrapped for security)
+    user_id_val := (SELECT auth.uid());
     
+    -- Return empty set if unauthenticated
     IF user_id_val IS NULL THEN
         RETURN;
     END IF;
@@ -184,6 +190,7 @@ CREATE OR REPLACE FUNCTION rpc_stats_overview()
 RETURNS JSON
 LANGUAGE plpgsql
 SECURITY DEFINER
+SET search_path = public
 AS $$
 DECLARE
     user_id_val UUID;
@@ -194,7 +201,8 @@ DECLARE
     current_streak INTEGER;
     result JSON;
 BEGIN
-    user_id_val := auth.uid();
+    -- Get current user ID (wrapped for security)
+    user_id_val := (SELECT auth.uid());
     
     IF user_id_val IS NULL THEN
         RETURN json_build_object('success', false, 'error', 'User not authenticated');
@@ -221,24 +229,30 @@ BEGIN
     FROM attempts 
     WHERE user_id = user_id_val AND is_correct = true;
     
-    -- Calculate current streak (simplified - consecutive correct answers)
-    WITH recent_attempts AS (
-        SELECT is_correct, created_at
-        FROM attempts 
+    -- Calculate current streak using gap-and-island pattern
+    -- Streak = consecutive calendar days where user has at least one attempt
+    WITH daily_attempts AS (
+        SELECT DISTINCT DATE(created_at) as attempt_date
+        FROM attempts
         WHERE user_id = user_id_val
-        ORDER BY created_at DESC
-        LIMIT 20
+        ORDER BY attempt_date DESC
+    ),
+    streak_groups AS (
+        SELECT 
+            attempt_date,
+            ROW_NUMBER() OVER (ORDER BY attempt_date DESC) as rn,
+            attempt_date - (ROW_NUMBER() OVER (ORDER BY attempt_date DESC) || ' days')::INTERVAL as grp
+        FROM daily_attempts
     )
-    SELECT COUNT(*)
+    SELECT COALESCE(COUNT(*), 0)
     INTO current_streak
-    FROM (
-        SELECT *, 
-               ROW_NUMBER() OVER (ORDER BY created_at DESC) - 
-               ROW_NUMBER() OVER (PARTITION BY is_correct ORDER BY created_at DESC) as grp
-        FROM recent_attempts
-        WHERE is_correct = true
-    ) grouped
-    WHERE grp = 0;
+    FROM streak_groups
+    WHERE grp = (SELECT grp FROM streak_groups ORDER BY attempt_date DESC LIMIT 1);
+    
+    -- If no attempts exist, streak is 0
+    IF current_streak IS NULL THEN
+        current_streak := 0;
+    END IF;
     
     -- Build result
     RETURN json_build_object(
