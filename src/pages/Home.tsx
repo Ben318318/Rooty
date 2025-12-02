@@ -13,7 +13,7 @@ import Button from "../components/Button";
 import Card, { CardHeader, CardContent } from "../components/Card";
 
 export default function Home() {
-  const { user } = useAuth();
+  const { user, isAdmin } = useAuth();
 
   return (
     <div className="container" style={{ marginTop: "4rem" }}>
@@ -27,7 +27,7 @@ export default function Home() {
             margin: "0 auto",
           }}
         >
-          Learn Latin and Greek word roots through weekly themed quizzes
+          Learn Latin and Greek word roots through Christmas-themed quizzes
         </p>
       </div>
 
@@ -46,11 +46,20 @@ export default function Home() {
           </Button>
         </Link>
         {user ? (
-          <Link to="/profile" style={{ textDecoration: "none" }}>
-            <Button fullWidth variant="ghost" size="large">
-              View Profile
-            </Button>
-          </Link>
+          <>
+            <Link to="/profile" style={{ textDecoration: "none" }}>
+              <Button fullWidth variant="ghost" size="large">
+                View Profile
+              </Button>
+            </Link>
+            {isAdmin && (
+              <Link to="/admin" style={{ textDecoration: "none" }}>
+                <Button fullWidth variant="ghost" size="large">
+                  Admin Console
+                </Button>
+              </Link>
+            )}
+          </>
         ) : (
           <Link to="/auth" style={{ textDecoration: "none" }}>
             <Button fullWidth variant="ghost" size="large">
@@ -71,7 +80,7 @@ export default function Home() {
         }}
       >
         <Card>
-          <CardHeader title="📚 100 Roots" />
+          <CardHeader title="📚 50 Christmas Roots" />
           <CardContent>
             <p
               style={{
@@ -79,14 +88,13 @@ export default function Home() {
                 color: "var(--color-text-secondary)",
               }}
             >
-              Learn from a curated collection of essential Latin and Greek word
-              roots
+              Learn from a curated collection of 50 essential Christmas-themed Latin and Greek word roots
             </p>
           </CardContent>
         </Card>
 
         <Card>
-          <CardHeader title="📅 Weekly Themes" />
+          <CardHeader title="🎄 Christmas Special" />
           <CardContent>
             <p
               style={{
@@ -94,7 +102,7 @@ export default function Home() {
                 color: "var(--color-text-secondary)",
               }}
             >
-              Organized learning paths with themed weekly content
+              Focused learning path with Christmas-themed content
             </p>
           </CardContent>
         </Card>

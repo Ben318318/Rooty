@@ -1,162 +1,442 @@
 [
   {
-    "root_text": "aqua",
+    "root_text": "nativitas",
     "origin_lang": "Latin",
-    "meaning": "water",
-    "examples": ["aquarium", "aquatic"],
+    "meaning": "birth",
+    "examples": ["nativity", "native", "natal"],
     "source_title": "Oxford Etymology Dictionary",
-    "source_url": "https://www.oxfordreference.com/view/10.1093/acref/9780199547937.001.0001/acref-9780199547937"
+    "source_url": "https://www.etymonline.com/word/nativity"
   },
   {
-    "root_text": "terra",
-    "origin_lang": "Latin", 
-    "meaning": "earth, land",
-    "examples": ["territory", "terrestrial"],
-    "source_title": "Etymonline",
-    "source_url": "https://www.etymonline.com/word/territory"
-  },
-  {
-    "root_text": "ignis",
+    "root_text": "stella",
     "origin_lang": "Latin",
-    "meaning": "fire",
-    "examples": ["ignite", "ignition"],
-    "source_title": "Oxford Etymology Dictionary",
-    "source_url": "https://www.oxfordreference.com/view/10.1093/acref/9780199547937.001.0001/acref-9780199547937"
-  },
-  {
-    "root_text": "aer",
-    "origin_lang": "Greek",
-    "meaning": "air",
-    "examples": ["aerial", "aerodynamics"],
+    "meaning": "star",
+    "examples": ["stellar", "constellation", "stellate"],
     "source_title": "Etymonline",
-    "source_url": "https://www.etymonline.com/word/aerial"
+    "source_url": "https://www.etymonline.com/word/stellar"
   },
   {
-    "root_text": "phobos",
+    "root_text": "angelos",
     "origin_lang": "Greek",
-    "meaning": "fear",
-    "examples": ["phobia", "phobic"],
+    "meaning": "messenger, angel",
+    "examples": ["angel", "angelic", "evangelist"],
     "source_title": "Oxford Etymology Dictionary",
-    "source_url": "https://www.oxfordreference.com/view/10.1093/acref/9780199547937.001.0001/acref-9780199547937"
+    "source_url": "https://www.etymonline.com/word/angel"
   },
   {
-    "root_text": "logos",
+    "root_text": "doxa",
     "origin_lang": "Greek",
-    "meaning": "word, study",
-    "examples": ["biology", "psychology"],
+    "meaning": "glory, praise",
+    "examples": ["doxology", "orthodox", "paradox"],
     "source_title": "Etymonline",
-    "source_url": "https://www.etymonline.com/word/biology"
+    "source_url": "https://www.etymonline.com/word/doxology"
   },
   {
-    "root_text": "pathos",
-    "origin_lang": "Greek",
-    "meaning": "feeling, suffering",
-    "examples": ["empathy", "sympathy"],
+    "root_text": "pax",
+    "origin_lang": "Latin",
+    "meaning": "peace",
+    "examples": ["peace", "pacify", "pacific"],
     "source_title": "Oxford Etymology Dictionary",
-    "source_url": "https://www.oxfordreference.com/view/10.1093/acref/9780199547937.001.0001/acref-9780199547937"
+    "source_url": "https://www.etymonline.com/word/peace"
   },
   {
-    "root_text": "chronos",
-    "origin_lang": "Greek",
-    "meaning": "time",
-    "examples": ["chronology", "synchronize"],
+    "root_text": "caritas",
+    "origin_lang": "Latin",
+    "meaning": "love, charity",
+    "examples": ["charity", "charitable", "cherish"],
     "source_title": "Etymonline",
-    "source_url": "https://www.etymonline.com/word/chronology"
+    "source_url": "https://www.etymonline.com/word/charity"
   },
   {
-    "root_text": "geo",
-    "origin_lang": "Greek",
-    "meaning": "earth",
-    "examples": ["geography", "geology"],
+    "root_text": "lumen",
+    "origin_lang": "Latin",
+    "meaning": "light",
+    "examples": ["illuminate", "luminous", "luminary"],
     "source_title": "Oxford Etymology Dictionary",
-    "source_url": "https://www.oxfordreference.com/view/10.1093/acref/9780199547937.001.0001/acref-9780199547937"
+    "source_url": "https://www.etymonline.com/word/illuminate"
   },
   {
-    "root_text": "bios",
-    "origin_lang": "Greek",
-    "meaning": "life",
-    "examples": ["biology", "biography"],
+    "root_text": "corona",
+    "origin_lang": "Latin",
+    "meaning": "crown",
+    "examples": ["crown", "coronation", "coronet"],
     "source_title": "Etymonline",
-    "source_url": "https://www.etymonline.com/word/biology"
+    "source_url": "https://www.etymonline.com/word/crown"
   },
   {
-    "root_text": "philos",
-    "origin_lang": "Greek",
-    "meaning": "love",
-    "examples": ["philosophy", "philanthropy"],
+    "root_text": "regnum",
+    "origin_lang": "Latin",
+    "meaning": "kingdom, reign",
+    "examples": ["reign", "regal", "regent"],
     "source_title": "Oxford Etymology Dictionary",
-    "source_url": "https://www.oxfordreference.com/view/10.1093/acref/9780199547937.001.0001/acref-9780199547937"
+    "source_url": "https://www.etymonline.com/word/reign"
   },
   {
-    "root_text": "sophos",
-    "origin_lang": "Greek",
-    "meaning": "wise",
-    "examples": ["philosophy", "sophisticated"],
+    "root_text": "sacer",
+    "origin_lang": "Latin",
+    "meaning": "holy, sacred",
+    "examples": ["sacred", "sacrament", "sacrifice"],
     "source_title": "Etymonline",
-    "source_url": "https://www.etymonline.com/word/philosophy"
+    "source_url": "https://www.etymonline.com/word/sacred"
   },
   {
-    "root_text": "demos",
+    "root_text": "hieros",
     "origin_lang": "Greek",
-    "meaning": "people",
-    "examples": ["democracy", "demographics"],
+    "meaning": "holy, sacred",
+    "examples": ["hierarchy", "hieroglyph", "hieratic"],
     "source_title": "Oxford Etymology Dictionary",
-    "source_url": "https://www.oxfordreference.com/view/10.1093/acref/9780199547937.001.0001/acref-9780199547937"
+    "source_url": "https://www.etymonline.com/word/hierarchy"
   },
   {
-    "root_text": "polis",
+    "root_text": "theos",
     "origin_lang": "Greek",
-    "meaning": "city",
-    "examples": ["metropolis", "police"],
+    "meaning": "god",
+    "examples": ["theology", "theist", "atheist"],
     "source_title": "Etymonline",
-    "source_url": "https://www.etymonline.com/word/metropolis"
+    "source_url": "https://www.etymonline.com/word/theology"
   },
   {
-    "root_text": "tele",
-    "origin_lang": "Greek",
-    "meaning": "far, distant",
-    "examples": ["telephone", "television"],
+    "root_text": "deus",
+    "origin_lang": "Latin",
+    "meaning": "god",
+    "examples": ["deity", "deify", "deism"],
     "source_title": "Oxford Etymology Dictionary",
-    "source_url": "https://www.oxfordreference.com/view/10.1093/acref/9780199547937.001.0001/acref-9780199547937"
+    "source_url": "https://www.etymonline.com/word/deity"
   },
   {
-    "root_text": "graph",
-    "origin_lang": "Greek",
-    "meaning": "write",
-    "examples": ["graphite", "photograph"],
+    "root_text": "spiritus",
+    "origin_lang": "Latin",
+    "meaning": "spirit, breath",
+    "examples": ["spirit", "spiritual", "inspire"],
     "source_title": "Etymonline",
-    "source_url": "https://www.etymonline.com/word/graphite"
+    "source_url": "https://www.etymonline.com/word/spirit"
   },
   {
-    "root_text": "phon",
+    "root_text": "pneuma",
     "origin_lang": "Greek",
-    "meaning": "sound",
-    "examples": ["telephone", "symphony"],
+    "meaning": "spirit, breath, wind",
+    "examples": ["pneumatic", "pneumonia", "pneumatology"],
     "source_title": "Oxford Etymology Dictionary",
-    "source_url": "https://www.oxfordreference.com/view/10.1093/acref/9780199547937.001.0001/acref-9780199547937"
+    "source_url": "https://www.etymonline.com/word/pneumatic"
   },
   {
-    "root_text": "scope",
-    "origin_lang": "Greek",
-    "meaning": "look, see",
-    "examples": ["microscope", "telescope"],
+    "root_text": "glacies",
+    "origin_lang": "Latin",
+    "meaning": "ice",
+    "examples": ["glacier", "glacial", "glaze"],
     "source_title": "Etymonline",
-    "source_url": "https://www.etymonline.com/word/microscope"
+    "source_url": "https://www.etymonline.com/word/glacier"
   },
   {
-    "root_text": "micro",
-    "origin_lang": "Greek",
-    "meaning": "small",
-    "examples": ["microscope", "microbiology"],
+    "root_text": "nix",
+    "origin_lang": "Latin",
+    "meaning": "snow",
+    "examples": ["snow", "snowy", "snowflake"],
     "source_title": "Oxford Etymology Dictionary",
-    "source_url": "https://www.oxfordreference.com/view/10.1093/acref/9780199547937.001.0001/acref-9780199547937"
+    "source_url": "https://www.etymonline.com/word/snow"
   },
   {
-    "root_text": "macro",
+    "root_text": "chion",
     "origin_lang": "Greek",
-    "meaning": "large",
-    "examples": ["macroeconomics", "macroscopic"],
+    "meaning": "snow",
+    "examples": ["chionophile", "chionophobia"],
     "source_title": "Etymonline",
-    "source_url": "https://www.etymonline.com/word/macro"
+    "source_url": "https://www.etymonline.com/word/chion"
+  },
+  {
+    "root_text": "frigus",
+    "origin_lang": "Latin",
+    "meaning": "cold",
+    "examples": ["frigid", "refrigerate", "frigidity"],
+    "source_title": "Oxford Etymology Dictionary",
+    "source_url": "https://www.etymonline.com/word/frigid"
+  },
+  {
+    "root_text": "cryos",
+    "origin_lang": "Greek",
+    "meaning": "cold, frost",
+    "examples": ["cryogenic", "cryosphere", "cryotherapy"],
+    "source_title": "Etymonline",
+    "source_url": "https://www.etymonline.com/word/cryogenic"
+  },
+  {
+    "root_text": "gaudium",
+    "origin_lang": "Latin",
+    "meaning": "joy, gladness",
+    "examples": ["joy", "rejoice", "gaudy"],
+    "source_title": "Oxford Etymology Dictionary",
+    "source_url": "https://www.etymonline.com/word/joy"
+  },
+  {
+    "root_text": "chara",
+    "origin_lang": "Greek",
+    "meaning": "joy, delight",
+    "examples": ["charisma", "charismatic", "eucharist"],
+    "source_title": "Etymonline",
+    "source_url": "https://www.etymonline.com/word/charisma"
+  },
+  {
+    "root_text": "festum",
+    "origin_lang": "Latin",
+    "meaning": "feast, festival",
+    "examples": ["festival", "festive", "feast"],
+    "source_title": "Oxford Etymology Dictionary",
+    "source_url": "https://www.etymonline.com/word/festival"
+  },
+  {
+    "root_text": "donum",
+    "origin_lang": "Latin",
+    "meaning": "gift",
+    "examples": ["donate", "donation", "donor"],
+    "source_title": "Etymonline",
+    "source_url": "https://www.etymonline.com/word/donate"
+  },
+  {
+    "root_text": "doron",
+    "origin_lang": "Greek",
+    "meaning": "gift",
+    "examples": ["dose", "anecdote", "antidote"],
+    "source_title": "Oxford Etymology Dictionary",
+    "source_url": "https://www.etymonline.com/word/dose"
+  },
+  {
+    "root_text": "musica",
+    "origin_lang": "Latin",
+    "meaning": "music",
+    "examples": ["music", "musical", "musician"],
+    "source_title": "Etymonline",
+    "source_url": "https://www.etymonline.com/word/music"
+  },
+  {
+    "root_text": "mousike",
+    "origin_lang": "Greek",
+    "meaning": "art of the Muses, music",
+    "examples": ["music", "museum", "muse"],
+    "source_title": "Oxford Etymology Dictionary",
+    "source_url": "https://www.etymonline.com/word/music"
+  },
+  {
+    "root_text": "cantus",
+    "origin_lang": "Latin",
+    "meaning": "song, singing",
+    "examples": ["chant", "cantata", "canticle"],
+    "source_title": "Etymonline",
+    "source_url": "https://www.etymonline.com/word/chant"
+  },
+  {
+    "root_text": "hymnos",
+    "origin_lang": "Greek",
+    "meaning": "hymn, song of praise",
+    "examples": ["hymn", "hymnal", "hymnology"],
+    "source_title": "Oxford Etymology Dictionary",
+    "source_url": "https://www.etymonline.com/word/hymn"
+  },
+  {
+    "root_text": "benedictio",
+    "origin_lang": "Latin",
+    "meaning": "blessing",
+    "examples": ["benediction", "benedictory", "benedict"],
+    "source_title": "Etymonline",
+    "source_url": "https://www.etymonline.com/word/benediction"
+  },
+  {
+    "root_text": "eulogia",
+    "origin_lang": "Greek",
+    "meaning": "blessing, praise",
+    "examples": ["eulogy", "eulogize", "eulogistic"],
+    "source_title": "Oxford Etymology Dictionary",
+    "source_url": "https://www.etymonline.com/word/eulogy"
+  },
+  {
+    "root_text": "miraculum",
+    "origin_lang": "Latin",
+    "meaning": "wonder, miracle",
+    "examples": ["miracle", "miraculous", "mirage"],
+    "source_title": "Etymonline",
+    "source_url": "https://www.etymonline.com/word/miracle"
+  },
+  {
+    "root_text": "thauma",
+    "origin_lang": "Greek",
+    "meaning": "wonder, marvel",
+    "examples": ["thaumaturgy", "thaumaturge"],
+    "source_title": "Oxford Etymology Dictionary",
+    "source_url": "https://www.etymonline.com/word/thaumaturgy"
+  },
+  {
+    "root_text": "salvus",
+    "origin_lang": "Latin",
+    "meaning": "safe, saved",
+    "examples": ["save", "salvation", "salvage"],
+    "source_title": "Etymonline",
+    "source_url": "https://www.etymonline.com/word/save"
+  },
+  {
+    "root_text": "soter",
+    "origin_lang": "Greek",
+    "meaning": "savior",
+    "examples": ["soteriology", "soteriological"],
+    "source_title": "Oxford Etymology Dictionary",
+    "source_url": "https://www.etymonline.com/word/soteriology"
+  },
+  {
+    "root_text": "redemptio",
+    "origin_lang": "Latin",
+    "meaning": "redemption, buying back",
+    "examples": ["redemption", "redeem", "redemptive"],
+    "source_title": "Etymonline",
+    "source_url": "https://www.etymonline.com/word/redemption"
+  },
+  {
+    "root_text": "lutron",
+    "origin_lang": "Greek",
+    "meaning": "ransom, price of release",
+    "examples": ["lytrosis"],
+    "source_title": "Oxford Etymology Dictionary",
+    "source_url": "https://www.etymonline.com/word/ransom"
+  },
+  {
+    "root_text": "gratia",
+    "origin_lang": "Latin",
+    "meaning": "grace, favor, thanks",
+    "examples": ["grace", "gratitude", "grateful"],
+    "source_title": "Etymonline",
+    "source_url": "https://www.etymonline.com/word/grace"
+  },
+  {
+    "root_text": "charis",
+    "origin_lang": "Greek",
+    "meaning": "grace, favor, kindness",
+    "examples": ["charisma", "charismatic", "eucharist"],
+    "source_title": "Oxford Etymology Dictionary",
+    "source_url": "https://www.etymonline.com/word/charisma"
+  },
+  {
+    "root_text": "misericordia",
+    "origin_lang": "Latin",
+    "meaning": "mercy, compassion",
+    "examples": ["mercy", "merciful", "misericord"],
+    "source_title": "Etymonline",
+    "source_url": "https://www.etymonline.com/word/mercy"
+  },
+  {
+    "root_text": "eleos",
+    "origin_lang": "Greek",
+    "meaning": "mercy, pity",
+    "examples": ["eleemosynary"],
+    "source_title": "Oxford Etymology Dictionary",
+    "source_url": "https://www.etymonline.com/word/mercy"
+  },
+  {
+    "root_text": "fides",
+    "origin_lang": "Latin",
+    "meaning": "faith, trust",
+    "examples": ["faith", "fidelity", "confide"],
+    "source_title": "Etymonline",
+    "source_url": "https://www.etymonline.com/word/faith"
+  },
+  {
+    "root_text": "pistis",
+    "origin_lang": "Greek",
+    "meaning": "faith, trust",
+    "examples": ["pistology"],
+    "source_title": "Oxford Etymology Dictionary",
+    "source_url": "https://www.etymonline.com/word/faith"
+  },
+  {
+    "root_text": "spes",
+    "origin_lang": "Latin",
+    "meaning": "hope",
+    "examples": ["despair", "desperate", "prosper"],
+    "source_title": "Etymonline",
+    "source_url": "https://www.etymonline.com/word/despair"
+  },
+  {
+    "root_text": "elpis",
+    "origin_lang": "Greek",
+    "meaning": "hope",
+    "examples": ["elpidology"],
+    "source_title": "Oxford Etymology Dictionary",
+    "source_url": "https://www.etymonline.com/word/hope"
+  },
+  {
+    "root_text": "virtus",
+    "origin_lang": "Latin",
+    "meaning": "virtue, excellence, courage",
+    "examples": ["virtue", "virtuous", "virtual"],
+    "source_title": "Etymonline",
+    "source_url": "https://www.etymonline.com/word/virtue"
+  },
+  {
+    "root_text": "arete",
+    "origin_lang": "Greek",
+    "meaning": "excellence, virtue",
+    "examples": ["arete"],
+    "source_title": "Oxford Etymology Dictionary",
+    "source_url": "https://www.etymonline.com/word/arete"
+  },
+  {
+    "root_text": "humilitas",
+    "origin_lang": "Latin",
+    "meaning": "humility, lowliness",
+    "examples": ["humility", "humble", "humiliate"],
+    "source_title": "Etymonline",
+    "source_url": "https://www.etymonline.com/word/humility"
+  },
+  {
+    "root_text": "tapeinos",
+    "origin_lang": "Greek",
+    "meaning": "low, humble",
+    "examples": ["tapeinosis"],
+    "source_title": "Oxford Etymology Dictionary",
+    "source_url": "https://www.etymonline.com/word/humble"
+  },
+  {
+    "root_text": "servus",
+    "origin_lang": "Latin",
+    "meaning": "servant, slave",
+    "examples": ["serve", "service", "servant"],
+    "source_title": "Etymonline",
+    "source_url": "https://www.etymonline.com/word/serve"
+  },
+  {
+    "root_text": "doulos",
+    "origin_lang": "Greek",
+    "meaning": "servant, slave",
+    "examples": ["doulos"],
+    "source_title": "Oxford Etymology Dictionary",
+    "source_url": "https://www.etymonline.com/word/servant"
+  },
+  {
+    "root_text": "pastor",
+    "origin_lang": "Latin",
+    "meaning": "shepherd",
+    "examples": ["pastor", "pastoral", "pasture"],
+    "source_title": "Etymonline",
+    "source_url": "https://www.etymonline.com/word/pastor"
+  },
+  {
+    "root_text": "poimen",
+    "origin_lang": "Greek",
+    "meaning": "shepherd",
+    "examples": ["poimenics"],
+    "source_title": "Oxford Etymology Dictionary",
+    "source_url": "https://www.etymonline.com/word/shepherd"
+  },
+  {
+    "root_text": "magi",
+    "origin_lang": "Latin",
+    "meaning": "wise men, magicians",
+    "examples": ["magic", "magician", "magical"],
+    "source_title": "Etymonline",
+    "source_url": "https://www.etymonline.com/word/magic"
+  },
+  {
+    "root_text": "magoi",
+    "origin_lang": "Greek",
+    "meaning": "wise men, magicians",
+    "examples": ["magic", "magician"],
+    "source_title": "Oxford Etymology Dictionary",
+    "source_url": "https://www.etymonline.com/word/magic"
   }
 ]

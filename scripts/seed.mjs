@@ -66,27 +66,33 @@ async function seedDatabase() {
 
     console.log(`✅ Successfully inserted ${seedData.length} root entries!`);
 
-    // Create sample themes
-    console.log("📅 Creating sample themes...");
+    // Clear existing themes and theme_roots (for idempotency)
+    console.log("🧹 Clearing existing themes and theme-root links...");
+    const { error: deleteThemeRootsError } = await supabase
+      .from("theme_roots")
+      .delete()
+      .neq("theme_id", 0);
+    if (deleteThemeRootsError) {
+      console.warn("⚠️  Warning clearing theme_roots:", deleteThemeRootsError.message);
+    }
+
+    const { error: deleteThemesError } = await supabase
+      .from("themes")
+      .delete()
+      .neq("id", 0);
+    if (deleteThemesError) {
+      console.warn("⚠️  Warning clearing themes:", deleteThemesError.message);
+    }
+
+    // Create Christmas Special theme
+    console.log("🎄 Creating Christmas Special theme...");
 
     const themes = [
       {
-        name: "Week 1: Nature Roots",
-        week_start: "2024-01-01",
+        name: "Christmas Special",
+        week_start: "2024-12-01",
         description:
-          "Learn roots related to natural elements like water, earth, fire, and air.",
-      },
-      {
-        name: "Week 2: Human Experience",
-        week_start: "2024-01-08",
-        description:
-          "Explore roots about emotions, knowledge, and human society.",
-      },
-      {
-        name: "Week 3: Science & Technology",
-        week_start: "2024-01-15",
-        description:
-          "Discover roots used in scientific and technological terms.",
+          "Learn Latin and Greek roots related to Christmas, winter, and celebration.",
       },
     ];
 
@@ -99,42 +105,24 @@ async function seedDatabase() {
       throw themeError;
     }
 
-    console.log(`✅ Created ${themes.length} sample themes!`);
+    console.log(`✅ Created Christmas Special theme!`);
 
-    // Link some roots to themes (for demo purposes)
-    console.log("🔗 Linking roots to themes...");
+    // Link all roots to Christmas theme
+    console.log("🔗 Linking all roots to Christmas Special theme...");
 
-    const { data: rootsData } = await supabase
+    const { data: rootsData, error: rootsQueryError } = await supabase
       .from("roots")
-      .select("id, root_text")
-      .limit(20);
+      .select("id, root_text");
 
-    if (rootsData && themeData) {
-      const themeRoots = [];
+    if (rootsQueryError) {
+      throw rootsQueryError;
+    }
 
-      // Link first 7 roots to Week 1 (Nature)
-      for (let i = 0; i < 7 && i < rootsData.length; i++) {
-        themeRoots.push({
-          theme_id: themeData[0].id,
-          root_id: rootsData[i].id,
-        });
-      }
-
-      // Link next 7 roots to Week 2 (Human Experience)
-      for (let i = 7; i < 14 && i < rootsData.length; i++) {
-        themeRoots.push({
-          theme_id: themeData[1].id,
-          root_id: rootsData[i].id,
-        });
-      }
-
-      // Link remaining roots to Week 3 (Science & Technology)
-      for (let i = 14; i < rootsData.length; i++) {
-        themeRoots.push({
-          theme_id: themeData[2].id,
-          root_id: rootsData[i].id,
-        });
-      }
+    if (rootsData && themeData && themeData[0]) {
+      const themeRoots = rootsData.map((root) => ({
+        theme_id: themeData[0].id,
+        root_id: root.id,
+      }));
 
       const { error: linkError } = await supabase
         .from("theme_roots")
@@ -144,16 +132,16 @@ async function seedDatabase() {
         throw linkError;
       }
 
-      console.log(`✅ Linked ${themeRoots.length} roots to themes!`);
+      console.log(`✅ Linked ${themeRoots.length} roots to Christmas Special theme!`);
     }
 
     console.log("");
     console.log("🎉 Database seeding completed successfully!");
     console.log("");
     console.log("📊 Summary:");
-    console.log(`   • ${seedData.length} root entries loaded`);
-    console.log(`   • ${themes.length} themes created`);
-    console.log("   • Sample theme-root relationships established");
+    console.log(`   • ${seedData.length} Christmas-themed root entries loaded`);
+    console.log(`   • ${themes.length} theme created (Christmas Special)`);
+    console.log(`   • All ${seedData.length} roots linked to Christmas Special theme`);
     console.log("");
     console.log("🚀 Ready for frontend development!");
   } catch (error) {

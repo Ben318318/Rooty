@@ -16,7 +16,7 @@ import Card, { CardHeader, CardContent } from "../components/Card";
 
 export default function Profile() {
   const navigate = useNavigate();
-  const { user, profile, signOut } = useAuth();
+  const { user, profile, signOut, isAdmin } = useAuth();
 
   const [stats, setStats] = useState<StatsResponse | null>(null);
   const [loading, setLoading] = useState(true);
@@ -249,6 +249,15 @@ export default function Profile() {
                   >
                     Review Mistakes
                   </Button>
+                  {isAdmin && (
+                    <Button
+                      onClick={() => navigate("/admin")}
+                      variant="secondary"
+                      fullWidth
+                    >
+                      Admin Console
+                    </Button>
+                  )}
                   <Button
                     onClick={loadStats}
                     variant="ghost"
