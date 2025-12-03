@@ -1,12 +1,3 @@
-/**
- * Learn Page
- * Created by Gabriel (frontend-backend connection demo)
- * Enhanced by Nick with improved UI
- *
- * Displays weekly themes from the database using Nelson's rpc_get_themes() function.
- * This page demonstrates the working frontend-backend connection.
- */
-
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getThemes } from "../lib/api";
@@ -30,8 +21,14 @@ export default function Learn() {
       setLoading(true);
       setError(null);
 
-      // Call Nelson's RPC function via Nick's API layer
-      const { data, error: rpcError } = await getThemes();
+      const timeoutPromise = new Promise<never>((_, reject) =>
+        setTimeout(() => reject(new Error("Request timeout - please check your connection")), 10000)
+      );
+
+      const { data, error: rpcError } = await Promise.race([
+        getThemes(),
+        timeoutPromise,
+      ]) as { data: Theme[] | null; error: Error | null };
 
       if (rpcError) {
         throw rpcError;

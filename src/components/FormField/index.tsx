@@ -1,10 +1,3 @@
-/**
- * FormField Component
- * Created by Nick
- *
- * Wrapper for form inputs with labels, errors, and hints.
- */
-
 import React, { ReactNode } from "react";
 import styles from "./FormField.module.css";
 

@@ -135,13 +135,75 @@ async function seedDatabase() {
       console.log(`✅ Linked ${themeRoots.length} roots to Christmas Special theme!`);
     }
 
+    // Load and seed word_roots data
+    console.log("📝 Loading word roots seed data...");
+    const wordRootsSeedPath = join(__dirname, "../supabase/seeds/word_roots.seed.json");
+    const wordRootsSeedData = JSON.parse(readFileSync(wordRootsSeedPath, "utf8"));
+
+    console.log(`📚 Loading ${wordRootsSeedData.length} word root entries...`);
+
+    // Clear existing word_roots (for development)
+    console.log("🧹 Clearing existing word roots...");
+    const { error: deleteWordRootsError } = await supabase
+      .from("word_roots")
+      .delete()
+      .neq("id", 0);
+
+    if (deleteWordRootsError) {
+      console.warn("⚠️  Warning clearing existing word_roots:", deleteWordRootsError.message);
+    }
+
+    // Insert word_roots
+    const { data: wordRootsData, error: wordRootsError } = await supabase
+      .from("word_roots")
+      .insert(wordRootsSeedData)
+      .select();
+
+    if (wordRootsError) {
+      throw wordRootsError;
+    }
+
+    console.log(`✅ Successfully inserted ${wordRootsSeedData.length} word root entries!`);
+
+    // Link all word_roots to Christmas theme
+    console.log("🔗 Linking all word roots to Christmas Special theme...");
+
+    if (wordRootsData && themeData && themeData[0]) {
+      const themeWordRoots = wordRootsData.map((wordRoot) => ({
+        theme_id: themeData[0].id,
+        word_root_id: wordRoot.id,
+      }));
+
+      // Clear existing theme_word_roots
+      const { error: deleteThemeWordRootsError } = await supabase
+        .from("theme_word_roots")
+        .delete()
+        .neq("theme_id", 0);
+
+      if (deleteThemeWordRootsError) {
+        console.warn("⚠️  Warning clearing theme_word_roots:", deleteThemeWordRootsError.message);
+      }
+
+      const { error: linkWordRootsError } = await supabase
+        .from("theme_word_roots")
+        .insert(themeWordRoots);
+
+      if (linkWordRootsError) {
+        throw linkWordRootsError;
+      }
+
+      console.log(`✅ Linked ${themeWordRoots.length} word roots to Christmas Special theme!`);
+    }
+
     console.log("");
     console.log("🎉 Database seeding completed successfully!");
     console.log("");
     console.log("📊 Summary:");
     console.log(`   • ${seedData.length} Christmas-themed root entries loaded`);
+    console.log(`   • ${wordRootsSeedData.length} word root entries loaded`);
     console.log(`   • ${themes.length} theme created (Christmas Special)`);
     console.log(`   • All ${seedData.length} roots linked to Christmas Special theme`);
+    console.log(`   • All ${wordRootsSeedData.length} word roots linked to Christmas Special theme`);
     console.log("");
     console.log("🚀 Ready for frontend development!");
   } catch (error) {

@@ -1,11 +1,3 @@
-/**
- * Admin Page
- * Created by Benjamin Norbom
- *
- * Admin console for viewing and editing Christmas roots.
- * Requires admin authentication.
- */
-
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { getThemes } from "../lib/api";
@@ -31,6 +23,15 @@ export default function Admin() {
     type: "success" | "error";
     message: string;
   } | null>(null);
+  const [isCreating, setIsCreating] = useState(false);
+  const [newRoot, setNewRoot] = useState<Partial<Root>>({
+    root_text: "",
+    origin_lang: "Latin",
+    meaning: "",
+    examples: [],
+    source_title: "",
+    source_url: "",
+  });
 
   useEffect(() => {
     if (!isAdmin) {
@@ -233,6 +234,123 @@ export default function Admin() {
     }
   };
 
+  const handleCreate = async () => {
+    if (
+      !newRoot.root_text ||
+      !newRoot.meaning ||
+      !newRoot.source_title ||
+      !newRoot.source_url
+    ) {
+      setSaveStatus({
+        type: "error",
+        message: "Please fill in all required fields",
+      });
+      return;
+    }
+
+    try {
+      setSaveStatus(null);
+
+      // Create root
+      const { data: createdRoot, error: createError } = await supabase
+        .from("roots")
+        .insert({
+          root_text: newRoot.root_text,
+          origin_lang: newRoot.origin_lang || "Latin",
+          meaning: newRoot.meaning,
+          examples: newRoot.examples || [],
+          source_title: newRoot.source_title,
+          source_url: newRoot.source_url,
+        })
+        .select()
+        .single();
+
+      if (createError) {
+        throw createError;
+      }
+
+      if (!theme || !createdRoot) {
+        throw new Error("Failed to create root");
+      }
+
+      // Link root to Christmas theme
+      const { error: linkError } = await supabase
+        .from("theme_roots")
+        .insert({
+          theme_id: theme.id,
+          root_id: createdRoot.id,
+        });
+
+      if (linkError) {
+        throw linkError;
+      }
+
+      // Refresh data
+      await loadData();
+
+      // Reset form
+      setNewRoot({
+        root_text: "",
+        origin_lang: "Latin",
+        meaning: "",
+        examples: [],
+        source_title: "",
+        source_url: "",
+      });
+      setIsCreating(false);
+
+      setSaveStatus({
+        type: "success",
+        message: "Root created successfully!",
+      });
+
+      setTimeout(() => setSaveStatus(null), 3000);
+    } catch (err) {
+      console.error("Error creating root:", err);
+      setSaveStatus({
+        type: "error",
+        message:
+          err instanceof Error ? err.message : "Failed to create root",
+      });
+    }
+  };
+
+  const handleDelete = async (rootId: number) => {
+    if (!confirm("Are you sure you want to delete this root? This action cannot be undone.")) {
+      return;
+    }
+
+    try {
+      setSaveStatus(null);
+
+      const { error: deleteError } = await supabase
+        .from("roots")
+        .delete()
+        .eq("id", rootId);
+
+      if (deleteError) {
+        throw deleteError;
+      }
+
+      // Refresh data
+      await loadData();
+
+      setSaveStatus({
+        type: "success",
+        message: "Root deleted successfully!",
+      });
+
+      setTimeout(() => setSaveStatus(null), 3000);
+    } catch (err) {
+      console.error("Error deleting root:", err);
+      setSaveStatus({
+        type: "error",
+        message:
+          err instanceof Error ? err.message : "Failed to delete root",
+      });
+    }
+  };
+
   if (loading) {
     return (
       <div
@@ -342,8 +460,120 @@ export default function Admin() {
       )}
 
       <Card>
-        <CardHeader title="Roots Management" />
+        <CardHeader
+          title="Roots Management"
+          action={
+            <Button
+              onClick={() => setIsCreating(!isCreating)}
+              variant={isCreating ? "ghost" : "primary"}
+            >
+              {isCreating ? "Cancel" : "Add New Root"}
+            </Button>
+          }
+        />
         <CardContent>
+          {isCreating && (
+            <Card
+              style={{
+                marginBottom: "2rem",
+                border: "2px solid var(--color-primary)",
+              }}
+            >
+              <CardHeader title="Create New Root" />
+              <CardContent>
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+                    gap: "1rem",
+                    marginBottom: "1rem",
+                  }}
+                >
+                  <FormField label="Root Text" htmlFor="new-root-text" required>
+                    <TextInput
+                      id="new-root-text"
+                      value={newRoot.root_text || ""}
+                      onChange={(e) =>
+                        setNewRoot({ ...newRoot, root_text: e.target.value })
+                      }
+                      placeholder="e.g., aqua"
+                    />
+                  </FormField>
+
+                  <FormField label="Origin Language" htmlFor="new-origin-lang">
+                    <select
+                      id="new-origin-lang"
+                      value={newRoot.origin_lang || "Latin"}
+                      onChange={(e) =>
+                        setNewRoot({ ...newRoot, origin_lang: e.target.value })
+                      }
+                      style={{
+                        width: "100%",
+                        padding: "0.5rem",
+                        borderRadius: "var(--radius-md)",
+                        border: "1px solid var(--color-border)",
+                      }}
+                    >
+                      <option value="Latin">Latin</option>
+                      <option value="Greek">Greek</option>
+                    </select>
+                  </FormField>
+
+                  <FormField label="Meaning" htmlFor="new-meaning" required>
+                    <TextInput
+                      id="new-meaning"
+                      value={newRoot.meaning || ""}
+                      onChange={(e) =>
+                        setNewRoot({ ...newRoot, meaning: e.target.value })
+                      }
+                      placeholder="e.g., water"
+                    />
+                  </FormField>
+
+                  <FormField label="Examples (JSON array)" htmlFor="new-examples">
+                    <TextInput
+                      id="new-examples"
+                      value={JSON.stringify(newRoot.examples || [])}
+                      onChange={(e) => {
+                        try {
+                          const parsed = JSON.parse(e.target.value);
+                          setNewRoot({ ...newRoot, examples: parsed });
+                        } catch {
+                          // Invalid JSON, but allow typing
+                        }
+                      }}
+                      placeholder='["example1", "example2"]'
+                    />
+                  </FormField>
+
+                  <FormField label="Source Title" htmlFor="new-source-title" required>
+                    <TextInput
+                      id="new-source-title"
+                      value={newRoot.source_title || ""}
+                      onChange={(e) =>
+                        setNewRoot({ ...newRoot, source_title: e.target.value })
+                      }
+                      placeholder="e.g., Oxford Etymology Dictionary"
+                    />
+                  </FormField>
+
+                  <FormField label="Source URL" htmlFor="new-source-url" required>
+                    <TextInput
+                      id="new-source-url"
+                      value={newRoot.source_url || ""}
+                      onChange={(e) =>
+                        setNewRoot({ ...newRoot, source_url: e.target.value })
+                      }
+                      placeholder="https://example.com"
+                    />
+                  </FormField>
+                </div>
+                <Button onClick={handleCreate} variant="primary">
+                  Create Root
+                </Button>
+              </CardContent>
+            </Card>
+          )}
           {roots.length === 0 ? (
             <p style={{ textAlign: "center", padding: "2rem" }}>
               No roots found. Please run the seed script.
@@ -605,12 +835,29 @@ export default function Admin() {
                             </Button>
                           </div>
                         ) : (
-                          <Button
-                            size="small"
-                            onClick={() => handleEdit(root.id)}
+                          <div
+                            style={{
+                              display: "flex",
+                              gap: "0.5rem",
+                            }}
                           >
-                            Edit
-                          </Button>
+                            <Button
+                              size="small"
+                              onClick={() => handleEdit(root.id)}
+                            >
+                              Edit
+                            </Button>
+                            <Button
+                              size="small"
+                              variant="ghost"
+                              onClick={() => handleDelete(root.id)}
+                              style={{
+                                color: "var(--color-danger)",
+                              }}
+                            >
+                              Delete
+                            </Button>
+                          </div>
                         )}
                       </td>
                     </tr>

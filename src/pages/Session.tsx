@@ -1,14 +1,7 @@
-/**
- * Session Page
- * Created by Nick
- *
- * Quiz session interface where users practice word roots.
- */
-
 import React, { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { getSession, submitAttempt } from "../lib/api";
-import type { SessionRoot } from "../lib/api";
+import { getSession, getWordSession, submitAttempt, submitWordAttempt } from "../lib/api";
+import type { SessionRoot, WordSessionItem } from "../lib/api";
 import { useAuth } from "../context/AuthContext";
 import { markChallengeComplete } from "../lib/challenges";
 import QuizCard from "../components/QuizCard";
@@ -27,6 +20,8 @@ export default function Session() {
   const challengeNumber = challengeParam ? Number(challengeParam) : null;
 
   const [roots, setRoots] = useState<SessionRoot[]>([]);
+  const [wordRoots, setWordRoots] = useState<WordSessionItem[]>([]);
+  const [useWordQuiz, setUseWordQuiz] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -35,31 +30,61 @@ export default function Session() {
   const [answeredQuestions, setAnsweredQuestions] = useState(0);
 
   useEffect(() => {
-    if (!user) {
-      navigate("/auth");
-      return;
-    }
-
     loadSession();
-  }, [user]);
+  }, [themeId, useWordQuiz]);
+
+  useEffect(() => {
+    if (sessionComplete && challengeNumber && challengeNumber >= 1 && challengeNumber <= 4) {
+      markChallengeComplete(challengeNumber);
+      const timer = setTimeout(() => {
+        navigate("/");
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [sessionComplete, challengeNumber, navigate]);
 
   const loadSession = async () => {
     try {
       setLoading(true);
       setError(null);
 
-      const { data, error: sessionError } = await getSession(themeId, 10);
+      const timeoutPromise = new Promise<never>((_, reject) =>
+        setTimeout(() => reject(new Error("Request timeout - please check your connection")), 10000)
+      );
 
-      if (sessionError) {
-        throw sessionError;
+      if (useWordQuiz) {
+        const { data, error: sessionError } = await Promise.race([
+          getWordSession(themeId, 10),
+          timeoutPromise,
+        ]) as { data: WordSessionItem[] | null; error: Error | null };
+
+        if (sessionError) {
+          throw sessionError;
+        }
+
+        if (!data || data.length === 0) {
+          setError("No words available for this session.");
+          return;
+        }
+
+        setWordRoots(data);
+      } else {
+        const { data, error: sessionError } = await Promise.race([
+          getSession(themeId, 10),
+          timeoutPromise,
+        ]) as { data: SessionRoot[] | null; error: Error | null };
+
+        if (sessionError) {
+          throw sessionError;
+        }
+
+        if (!data || data.length === 0) {
+          setError("No roots available for this session.");
+          return;
+        }
+
+        setRoots(data);
       }
-
-      if (!data || data.length === 0) {
-        setError("No roots available for this session.");
-        return;
-      }
-
-      setRoots(data);
     } catch (err) {
       console.error("Error loading session:", err);
       setError(err instanceof Error ? err.message : "Failed to load session");
@@ -69,11 +94,14 @@ export default function Session() {
   };
 
   const handleAnswer = async (isCorrect: boolean, userAnswer: string) => {
-    const currentRoot = roots[currentIndex];
-
-    // Submit attempt to backend
     try {
-      await submitAttempt(currentRoot.id, isCorrect, userAnswer, themeId);
+      if (useWordQuiz) {
+        const currentWordRoot = wordRoots[currentIndex];
+        await submitWordAttempt(currentWordRoot.id, userAnswer, isCorrect, themeId);
+      } else {
+        const currentRoot = roots[currentIndex];
+        await submitAttempt(currentRoot.id, isCorrect, userAnswer, themeId);
+      }
 
       if (isCorrect) {
         setScore(score + 1);
@@ -81,9 +109,9 @@ export default function Session() {
 
       setAnsweredQuestions(answeredQuestions + 1);
 
-      // Wait a moment before moving to next question
+      const totalQuestions = useWordQuiz ? wordRoots.length : roots.length;
       setTimeout(() => {
-        if (currentIndex < roots.length - 1) {
+        if (currentIndex < totalQuestions - 1) {
           setCurrentIndex(currentIndex + 1);
         } else {
           setSessionComplete(true);
@@ -125,20 +153,9 @@ export default function Session() {
     );
   }
 
-  // Handle challenge completion when session finishes
-  useEffect(() => {
-    if (sessionComplete && challengeNumber && challengeNumber >= 1 && challengeNumber <= 5) {
-      markChallengeComplete(challengeNumber);
-      // Navigate to home after 2 seconds
-      const timer = setTimeout(() => {
-        navigate("/");
-      }, 2000);
-      return () => clearTimeout(timer);
-    }
-  }, [sessionComplete, challengeNumber, navigate]);
-
   if (sessionComplete) {
-    const percentage = Math.round((score / roots.length) * 100);
+    const totalQuestions = useWordQuiz ? wordRoots.length : roots.length;
+    const percentage = Math.round((score / totalQuestions) * 100);
 
     return (
       <div
@@ -147,7 +164,7 @@ export default function Session() {
       >
         <h1 style={{ marginBottom: "1rem" }}>Session Complete! 🎉</h1>
 
-        {challengeNumber && challengeNumber >= 1 && challengeNumber <= 5 && (
+        {challengeNumber && challengeNumber >= 1 && challengeNumber <= 4 && (
           <p
             style={{
               fontSize: "1.125rem",
@@ -182,7 +199,7 @@ export default function Session() {
               marginBottom: "0.5rem",
             }}
           >
-            {score} / {roots.length}
+            {score} / {useWordQuiz ? wordRoots.length : roots.length}
           </div>
           <div
             style={{ fontSize: "1.5rem", color: "var(--color-text-secondary)" }}
@@ -200,20 +217,17 @@ export default function Session() {
               ? "Excellent work!"
               : percentage >= 60
               ? "Good job! Keep practicing!"
-              : "Keep learning! Review your mistakes."}
+              : "Keep learning!"}
           </p>
         </div>
 
-        {challengeNumber && challengeNumber >= 1 && challengeNumber <= 5 ? (
+        {challengeNumber && challengeNumber >= 1 && challengeNumber <= 4 ? (
           <p style={{ color: "var(--color-text-secondary)", marginTop: "1rem" }}>
             Returning to home page...
           </p>
         ) : (
           <div style={{ display: "flex", gap: "1rem", justifyContent: "center" }}>
-            <Button onClick={() => navigate("/review")} variant="primary">
-              Review Mistakes
-            </Button>
-            <Button onClick={() => navigate("/learn")} variant="ghost">
+            <Button onClick={() => navigate("/learn")} variant="primary">
               Back to Learn
             </Button>
           </div>
@@ -229,7 +243,7 @@ export default function Session() {
     >
       <div style={{ textAlign: "center", marginBottom: "2rem" }}>
         <h1>Quiz Session</h1>
-        {challengeNumber && challengeNumber >= 1 && challengeNumber <= 5 && (
+        {challengeNumber && challengeNumber >= 1 && challengeNumber <= 4 && (
           <p
             style={{
               fontSize: "1.125rem",
@@ -238,20 +252,31 @@ export default function Session() {
               fontWeight: 500,
             }}
           >
-            Challenge {challengeNumber} of 5
+            Challenge {challengeNumber} of 4
           </p>
         )}
         <p style={{ color: "var(--color-text-secondary)" }}>
-          Score: {score} / {answeredQuestions}
+          Score: {score} / {answeredQuestions} ({useWordQuiz ? wordRoots.length : roots.length} questions)
         </p>
       </div>
 
-      <QuizCard
-        root={roots[currentIndex]}
-        questionNumber={currentIndex + 1}
-        totalQuestions={roots.length}
-        onAnswer={handleAnswer}
-      />
+      {useWordQuiz ? (
+        <QuizCard
+          key={`question-${currentIndex}-${wordRoots[currentIndex]?.id}`}
+          wordRoot={wordRoots[currentIndex]}
+          questionNumber={currentIndex + 1}
+          totalQuestions={wordRoots.length}
+          onAnswer={handleAnswer}
+        />
+      ) : (
+        <QuizCard
+          key={`question-${currentIndex}-${roots[currentIndex]?.id}`}
+          root={roots[currentIndex]}
+          questionNumber={currentIndex + 1}
+          totalQuestions={roots.length}
+          onAnswer={handleAnswer}
+        />
+      )}
     </div>
   );
 }

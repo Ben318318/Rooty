@@ -1,11 +1,3 @@
-/**
- * Protected Admin Route Component
- * Created by Benjamin Norbom
- *
- * Wrapper component that protects admin routes by checking authentication and admin role.
- * Redirects non-admin users to auth page.
- */
-
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";

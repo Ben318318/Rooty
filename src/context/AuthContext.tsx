@@ -1,11 +1,3 @@
-/**
- * Authentication Context
- * Created by Gabriel
- *
- * Provides authentication state and methods throughout the app.
- * Manages user session, profile, and role-based access.
- */
-
 import React, {
   createContext,
   useContext,

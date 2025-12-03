@@ -1,11 +1,3 @@
-/**
- * Home Page
- * Created by Gabriel
- * Enhanced by Nick with navigation and daily challenges
- *
- * Landing page for the Rooty application.
- */
-
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
@@ -15,7 +7,6 @@ import {
   getChristmasThemeId,
   getCompletedChallenges,
   allChallengesComplete,
-  resetChallenges,
 } from "../lib/challenges";
 
 export default function Home() {
@@ -27,7 +18,6 @@ export default function Home() {
     new Set()
   );
 
-  // Load Christmas theme ID on mount
   useEffect(() => {
     const loadThemeId = async () => {
       if (user) {
@@ -38,7 +28,6 @@ export default function Home() {
     loadThemeId();
   }, [user]);
 
-  // Refresh completed challenges when user changes or location changes (navigation)
   useEffect(() => {
     if (user) {
       setCompletedChallenges(getCompletedChallenges());
@@ -47,9 +36,6 @@ export default function Home() {
     }
   }, [user, location]);
 
-  /**
-   * Get the status of a challenge
-   */
   const getChallengeStatus = (
     challengeNumber: number
   ): "not-started" | "in-progress" | "completed" => {
@@ -59,16 +45,10 @@ export default function Home() {
     return "not-started";
   };
 
-  /**
-   * Check if a challenge is completed
-   */
   const isChallengeCompleted = (challengeNumber: number): boolean => {
     return completedChallenges.has(challengeNumber);
   };
 
-  /**
-   * Handle challenge card click
-   */
   const handleChallengeClick = (challengeNumber: number) => {
     if (!christmasThemeId) {
       console.error("Christmas theme ID not loaded");
@@ -77,17 +57,6 @@ export default function Home() {
     navigate(`/session?theme=${christmasThemeId}&challenge=${challengeNumber}`);
   };
 
-  /**
-   * Handle reset challenges button click
-   */
-  const handleResetChallenges = () => {
-    resetChallenges();
-    setCompletedChallenges(new Set());
-  };
-
-  /**
-   * Get status badge styling
-   */
   const getStatusBadgeStyle = (status: string) => {
     const baseStyle = {
       display: "inline-block",
@@ -146,7 +115,7 @@ export default function Home() {
       >
         <Link to="/learn" style={{ textDecoration: "none" }}>
           <Button fullWidth size="large">
-            Start Learning
+            Start Learning Weekly Lesson
           </Button>
         </Link>
         {user ? (
@@ -210,7 +179,7 @@ export default function Home() {
                   color: "var(--color-success)",
                 }}
               >
-                You've finished today's 5 challenges!
+                You've finished today's 4 challenges!
               </h3>
               <p
                 style={{
@@ -220,15 +189,6 @@ export default function Home() {
               >
                 Come back tomorrow for more!
               </p>
-              {isAdmin && (
-                <Button
-                  onClick={handleResetChallenges}
-                  variant="ghost"
-                  style={{ marginTop: "1.5rem" }}
-                >
-                  Reset Challenges (Demo)
-                </Button>
-              )}
             </Card>
           ) : (
             <>
@@ -240,7 +200,7 @@ export default function Home() {
                   marginBottom: "1rem",
                 }}
               >
-                {[1, 2, 3, 4, 5].map((challengeNumber) => {
+                {[1, 2, 3, 4].map((challengeNumber) => {
                   const status = getChallengeStatus(challengeNumber);
                   const isCompleted = isChallengeCompleted(challengeNumber);
 
@@ -255,7 +215,7 @@ export default function Home() {
                       }}
                     >
                       <CardHeader
-                        title={`Challenge ${challengeNumber} of 5`}
+                        title={`Challenge ${challengeNumber} of 4`}
                       />
                       <CardContent>
                         <div
@@ -279,17 +239,6 @@ export default function Home() {
                   );
                 })}
               </div>
-              {isAdmin && (
-                <div style={{ textAlign: "center", marginTop: "1rem" }}>
-                  <Button
-                    onClick={handleResetChallenges}
-                    variant="ghost"
-                    size="small"
-                  >
-                    Reset Challenges (Demo)
-                  </Button>
-                </div>
-              )}
             </>
           )}
         </div>
@@ -334,7 +283,7 @@ export default function Home() {
         </Card>
 
         <Card>
-          <CardHeader title="🔄 Review System" />
+          <CardHeader title="📈 Progress Tracking" />
           <CardContent>
             <p
               style={{
@@ -342,7 +291,7 @@ export default function Home() {
                 color: "var(--color-text-secondary)",
               }}
             >
-              Practice mistakes until mastered with our smart review queue
+              Track your learning progress with detailed statistics and streaks
             </p>
           </CardContent>
         </Card>

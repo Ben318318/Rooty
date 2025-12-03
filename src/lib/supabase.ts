@@ -1,25 +1,14 @@
-/**
- * Supabase Client Configuration
- * Created by Gabriel
- * 
- * This module provides the configured Supabase client for use throughout the app.
- * Environment variables must be set in .env.local
- */
-
 import { createClient } from '@supabase/supabase-js';
 
-// Get Supabase credentials from environment
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-// Validate credentials
 if (!supabaseUrl || !supabaseAnonKey) {
     throw new Error(
         'Missing Supabase credentials. Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in .env.local'
     );
 }
 
-// Create and export the Supabase client
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     auth: {
         autoRefreshToken: true,
@@ -28,7 +17,6 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     }
 });
 
-// Type definitions for database tables
 export type UserRole = 'admin' | 'learner';
 
 export interface Profile {
@@ -58,6 +46,21 @@ export interface Root {
     created_at: string;
 }
 
+export interface WordRoot {
+    id: number;
+    english_word: string;
+    component_roots: string;
+    correct_meaning: string;
+    option_1: string;
+    option_2: string;
+    option_3: string;
+    option_4: string;
+    origin_lang: string;
+    source_title: string | null;
+    source_url: string | null;
+    created_at: string;
+}
+
 export interface Attempt {
     id: number;
     user_id: string;
@@ -76,7 +79,6 @@ export interface WrongQueueItem {
     times_incorrect: number;
 }
 
-// Database type helper
 export interface Database {
     public: {
         Tables: {

@@ -1,10 +1,3 @@
-/**
- * StatBadge Component
- * Created by Nick
- *
- * Displays a statistic with an icon and label.
- */
-
 import React from "react";
 import styles from "./StatBadge.module.css";
 

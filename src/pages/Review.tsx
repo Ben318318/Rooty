@@ -1,10 +1,3 @@
-/**
- * Review Page
- * Created by Nick
- *
- * Practice page for reviewing wrong answers from the queue.
- */
-
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getReview, submitAttempt } from "../lib/api";
@@ -26,20 +19,22 @@ export default function Review() {
   const [reviewComplete, setReviewComplete] = useState(false);
 
   useEffect(() => {
-    if (!user) {
-      navigate("/auth");
-      return;
-    }
-
     loadReviewQueue();
-  }, [user]);
+  }, []);
 
   const loadReviewQueue = async () => {
     try {
       setLoading(true);
       setError(null);
 
-      const { data, error: reviewError } = await getReview(10);
+      const timeoutPromise = new Promise<never>((_, reject) =>
+        setTimeout(() => reject(new Error("Request timeout - please check your connection")), 10000)
+      );
+
+      const { data, error: reviewError } = await Promise.race([
+        getReview(10),
+        timeoutPromise,
+      ]) as { data: ReviewRoot[] | null; error: Error | null };
 
       if (reviewError) {
         throw reviewError;
@@ -66,7 +61,7 @@ export default function Review() {
 
     // Submit attempt to backend (will remove from queue if correct)
     try {
-      await submitAttempt(currentRoot.root_id, isCorrect, userAnswer);
+      await submitAttempt(currentRoot.id, isCorrect, userAnswer);
 
       if (isCorrect) {
         setCorrectCount(correctCount + 1);
@@ -205,6 +200,7 @@ export default function Review() {
       </div>
 
       <QuizCard
+        key={`review-${currentIndex}-${currentRoot?.id}`}
         root={currentRoot}
         questionNumber={currentIndex + 1}
         totalQuestions={reviewRoots.length}

@@ -110,3 +110,34 @@
     text-decoration: underline;
 }
 
+.wordText {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary);
+    margin: 0.5rem 0;
+}
+
+.componentRoots {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background-color: var(--color-bg-secondary);
+    border-radius: var(--radius-md);
+}
+
+.componentRootsTitle {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.componentRootsText {
+    font-size: var(--font-size-lg);
+    color: var(--color-text);
+    font-weight: var(--font-weight-medium);
+}
+
+.multipleChoiceSection {
+    margin-top: 1.5rem;
+}
+

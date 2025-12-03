@@ -80,9 +80,75 @@ BEGIN
 END;
 $$;
 
+-- Function to get word-based session (random selection from theme or all word roots)
+CREATE OR REPLACE FUNCTION rpc_get_word_session(
+    theme_id_param INTEGER DEFAULT NULL,
+    limit_count INTEGER DEFAULT 10
+)
+RETURNS TABLE (
+    id INTEGER,
+    english_word TEXT,
+    component_roots TEXT,
+    correct_meaning TEXT,
+    option_1 TEXT,
+    option_2 TEXT,
+    option_3 TEXT,
+    option_4 TEXT,
+    origin_lang TEXT,
+    source_title TEXT,
+    source_url TEXT
+)
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public
+AS $$
+BEGIN
+    IF theme_id_param IS NULL THEN
+        -- Get random word roots from all word roots
+        RETURN QUERY
+        SELECT 
+            wr.id,
+            wr.english_word,
+            wr.component_roots,
+            wr.correct_meaning,
+            wr.option_1,
+            wr.option_2,
+            wr.option_3,
+            wr.option_4,
+            wr.origin_lang,
+            wr.source_title,
+            wr.source_url
+        FROM word_roots wr
+        ORDER BY RANDOM()
+        LIMIT limit_count;
+    ELSE
+        -- Get random word roots from specific theme
+        RETURN QUERY
+        SELECT 
+            wr.id,
+            wr.english_word,
+            wr.component_roots,
+            wr.correct_meaning,
+            wr.option_1,
+            wr.option_2,
+            wr.option_3,
+            wr.option_4,
+            wr.origin_lang,
+            wr.source_title,
+            wr.source_url
+        FROM word_roots wr
+        INNER JOIN theme_word_roots twr ON wr.id = twr.word_root_id
+        WHERE twr.theme_id = theme_id_param
+        ORDER BY RANDOM()
+        LIMIT limit_count;
+    END IF;
+END;
+$$;
+
 -- Function to submit an attempt and update wrong queue
 CREATE OR REPLACE FUNCTION rpc_submit_attempt(
-    root_id_param INTEGER,
+    root_id_param INTEGER DEFAULT NULL,
+    word_root_id_param INTEGER DEFAULT NULL,
     theme_id_param INTEGER DEFAULT NULL,
     is_correct_param BOOLEAN,
     user_answer_param TEXT DEFAULT NULL
@@ -104,24 +170,32 @@ BEGIN
         RETURN json_build_object('success', false, 'error', 'User not authenticated');
     END IF;
     
+    -- Validate that exactly one of root_id or word_root_id is provided
+    IF (root_id_param IS NULL AND word_root_id_param IS NULL) OR 
+       (root_id_param IS NOT NULL AND word_root_id_param IS NOT NULL) THEN
+        RETURN json_build_object('success', false, 'error', 'Must provide exactly one of root_id or word_root_id');
+    END IF;
+    
     -- Insert attempt
-    INSERT INTO attempts (user_id, root_id, theme_id, is_correct, user_answer)
-    VALUES (user_id_val, root_id_param, theme_id_param, is_correct_param, user_answer_param)
+    INSERT INTO attempts (user_id, root_id, word_root_id, theme_id, is_correct, user_answer)
+    VALUES (user_id_val, root_id_param, word_root_id_param, theme_id_param, is_correct_param, user_answer_param)
     RETURNING id INTO attempt_id;
     
-    -- Update wrong queue based on correctness
-    IF is_correct_param = false THEN
-        -- Add or update wrong queue entry
-        INSERT INTO wrong_queue (user_id, root_id, times_incorrect)
-        VALUES (user_id_val, root_id_param, 1)
-        ON CONFLICT (user_id, root_id) 
-        DO UPDATE SET 
-            times_incorrect = wrong_queue.times_incorrect + 1,
-            last_seen_at = NOW();
-    ELSE
-        -- Remove from wrong queue if correct
-        DELETE FROM wrong_queue 
-        WHERE user_id = user_id_val AND root_id = root_id_param;
+    -- Update wrong queue based on correctness (only for root-based quizzes)
+    IF root_id_param IS NOT NULL THEN
+        IF is_correct_param = false THEN
+            -- Add or update wrong queue entry
+            INSERT INTO wrong_queue (user_id, root_id, times_incorrect)
+            VALUES (user_id_val, root_id_param, 1)
+            ON CONFLICT (user_id, root_id) 
+            DO UPDATE SET 
+                times_incorrect = wrong_queue.times_incorrect + 1,
+                last_seen_at = NOW();
+        ELSE
+            -- Remove from wrong queue if correct
+            DELETE FROM wrong_queue 
+            WHERE user_id = user_id_val AND root_id = root_id_param;
+        END IF;
     END IF;
     
     -- Return success response
@@ -129,8 +203,8 @@ BEGIN
         'success', true, 
         'attempt_id', attempt_id,
         'message', CASE 
-            WHEN is_correct_param THEN 'Correct! Removed from review queue.'
-            ELSE 'Incorrect. Added to review queue.'
+            WHEN is_correct_param THEN 'Correct!'
+            ELSE 'Incorrect.'
         END
     );
 END;

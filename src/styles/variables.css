@@ -1,10 +1,3 @@
-/**
- * CSS Variables
- * Created by Gabriel
- * 
- * Global design tokens for consistent theming across the app.
- */
-
 :root {
     /* Colors - Primary */
     --color-primary: #4f46e5;

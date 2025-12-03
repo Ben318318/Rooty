@@ -1,10 +1,3 @@
-/**
- * Card Component
- * Created by Gabriel
- *
- * Reusable card component for displaying content in containers.
- */
-
 import React, { ReactNode, HTMLAttributes } from "react";
 import styles from "./Card.module.css";
 
@@ -34,13 +27,17 @@ export default function Card({
 interface CardHeaderProps {
   title: string;
   subtitle?: string;
+  action?: ReactNode;
 }
 
-export function CardHeader({ title, subtitle }: CardHeaderProps) {
+export function CardHeader({ title, subtitle, action }: CardHeaderProps) {
   return (
     <div className={styles.header}>
-      <h3 className={styles.title}>{title}</h3>
-      {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
+      <div>
+        <h3 className={styles.title}>{title}</h3>
+        {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
+      </div>
+      {action && <div className={styles.action}>{action}</div>}
     </div>
   );
 }

@@ -1,10 +1,3 @@
-/**
- * Button Component
- * Created by Gabriel
- *
- * Reusable button component with multiple variants and sizes.
- */
-
 import React, { ButtonHTMLAttributes, ReactNode } from "react";
 import styles from "./Button.module.css";
 

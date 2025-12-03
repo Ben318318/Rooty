@@ -226,7 +226,3 @@ SQL test suite is available in `tests/sql/sprint3_test.sql` covering:
 
 Run tests in a test database environment before deploying to production.
 
----
-
-*Created by Nelson for the Rooty learning platform*  
-*Updated for Sprint 3: Database Fixes & RPC Alignment*

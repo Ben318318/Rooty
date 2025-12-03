@@ -1,10 +1,3 @@
-/**
- * Profile Page
- * Created by Nick
- *
- * User profile with statistics dashboard.
- */
-
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getStatsOverview } from "../lib/api";
@@ -23,20 +16,22 @@ export default function Profile() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!user) {
-      navigate("/auth");
-      return;
-    }
-
     loadStats();
-  }, [user]);
+  }, []);
 
   const loadStats = async () => {
     try {
       setLoading(true);
       setError(null);
 
-      const { data, error: statsError } = await getStatsOverview();
+      const timeoutPromise = new Promise<never>((_, reject) =>
+        setTimeout(() => reject(new Error("Request timeout - please check your connection")), 10000)
+      );
+
+      const { data, error: statsError } = await Promise.race([
+        getStatsOverview(),
+        timeoutPromise,
+      ]) as { data: StatsResponse | null; error: Error | null };
 
       if (statsError) {
         throw statsError;
@@ -242,13 +237,6 @@ export default function Profile() {
                   >
                     Start Learning
                   </Button>
-                  <Button
-                    onClick={() => navigate("/review")}
-                    variant="secondary"
-                    fullWidth
-                  >
-                    Review Mistakes
-                  </Button>
                   {isAdmin && (
                     <Button
                       onClick={() => navigate("/admin")}
@@ -258,14 +246,6 @@ export default function Profile() {
                       Admin Console
                     </Button>
                   )}
-                  <Button
-                    onClick={loadStats}
-                    variant="ghost"
-                    size="small"
-                    fullWidth
-                  >
-                    Refresh Stats
-                  </Button>
                 </div>
               </CardContent>
             </Card>

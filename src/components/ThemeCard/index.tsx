@@ -1,10 +1,3 @@
-/**
- * ThemeCard Component
- * Created by Nick
- *
- * Displays a weekly theme with visual appeal for the Learn page.
- */
-
 import React from "react";
 import type { Theme } from "../../lib/supabase";
 import styles from "./ThemeCard.module.css";

@@ -1,18 +1,9 @@
-/**
- * API Layer
- * Created by Nick
- *
- * Wrapper functions for all Supabase RPC calls.
- * Provides clean abstraction for frontend components.
- */
-
 import { supabase } from "./supabase";
-import type { Theme, Root } from "./supabase";
+import type { Theme, Root, WordRoot } from "./supabase";
 
-// Response types for RPC functions
-export interface SessionRoot extends Root {
-  // Same as Root but from session context
-}
+export interface SessionRoot extends Root {}
+
+export interface WordSessionItem extends WordRoot {}
 
 export interface ReviewRoot extends Root {
   times_incorrect: number;
@@ -35,9 +26,6 @@ export interface SubmitAttemptResponse {
   error?: string;
 }
 
-/**
- * Get all available themes
- */
 export async function getThemes(): Promise<{
   data: Theme[] | null;
   error: Error | null;
@@ -55,11 +43,6 @@ export async function getThemes(): Promise<{
   }
 }
 
-/**
- * Get session roots for quiz
- * @param themeId - Optional theme ID to filter by. If null, returns random roots from all roots
- * @param limit - Number of roots to return (default: 10)
- */
 export async function getSession(
   themeId?: number | null,
   limit: number = 10
@@ -80,13 +63,26 @@ export async function getSession(
   }
 }
 
-/**
- * Submit a quiz attempt
- * @param rootId - ID of the root being answered
- * @param isCorrect - Whether the answer was correct
- * @param userAnswer - The user's submitted answer
- * @param themeId - Optional theme ID if quiz is from a specific theme
- */
+export async function getWordSession(
+  themeId?: number | null,
+  limit: number = 10
+): Promise<{ data: WordSessionItem[] | null; error: Error | null }> {
+  try {
+    const { data, error } = await supabase.rpc("rpc_get_word_session", {
+      theme_id_param: themeId ?? null,
+      limit_count: limit,
+    });
+
+    if (error) {
+      return { data: null, error };
+    }
+
+    return { data: data as WordSessionItem[], error: null };
+  } catch (err) {
+    return { data: null, error: err as Error };
+  }
+}
+
 export async function submitAttempt(
   rootId: number,
   isCorrect: boolean,
@@ -96,6 +92,7 @@ export async function submitAttempt(
   try {
     const { data, error } = await supabase.rpc("rpc_submit_attempt", {
       root_id_param: rootId,
+      word_root_id_param: null,
       theme_id_param: themeId ?? null,
       is_correct_param: isCorrect,
       user_answer_param: userAnswer,
@@ -111,10 +108,31 @@ export async function submitAttempt(
   }
 }
 
-/**
- * Get review items from wrong queue
- * @param limit - Number of items to return (default: 10)
- */
+export async function submitWordAttempt(
+  wordRootId: number,
+  selectedOption: string,
+  isCorrect: boolean,
+  themeId?: number | null
+): Promise<{ data: SubmitAttemptResponse | null; error: Error | null }> {
+  try {
+    const { data, error } = await supabase.rpc("rpc_submit_attempt", {
+      root_id_param: null,
+      word_root_id_param: wordRootId,
+      theme_id_param: themeId ?? null,
+      is_correct_param: isCorrect,
+      user_answer_param: selectedOption,
+    });
+
+    if (error) {
+      return { data: null, error };
+    }
+
+    return { data: data as SubmitAttemptResponse, error: null };
+  } catch (err) {
+    return { data: null, error: err as Error };
+  }
+}
+
 export async function getReview(
   limit: number = 10
 ): Promise<{ data: ReviewRoot[] | null; error: Error | null }> {
@@ -133,9 +151,6 @@ export async function getReview(
   }
 }
 
-/**
- * Get user statistics overview
- */
 export async function getStatsOverview(): Promise<{
   data: StatsResponse | null;
   error: Error | null;

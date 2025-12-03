@@ -1,10 +1,3 @@
-/**
- * Auth Page
- * Created by Nick
- *
- * Login and signup forms with error handling.
- */
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";

@@ -1,10 +1,3 @@
-/**
- * TextInput Component
- * Created by Nick
- *
- * Reusable text input with error states and validation.
- */
-
 import React, { InputHTMLAttributes, forwardRef } from "react";
 import styles from "./TextInput.module.css";
 
